@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 
 import Head from 'next/head'
-import Image from 'next/image'
+// import Image from 'next/image'
 import Link from 'next/link'
 
 import Footer from '../Footer'
@@ -16,7 +16,7 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
   <>
     <Link href="/">
       <NavbarContainer>
-        <Image src="/assets/logo.png" alt="logo" layout="fixed" width={160} height={60} />
+        <img src="/assets/logo.png" alt="logo" layout="fixed" width={160} height={60} />
       </NavbarContainer>
     </Link>
     <Head>
