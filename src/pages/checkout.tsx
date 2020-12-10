@@ -1,16 +1,29 @@
 import React from 'react';
+import Link from 'next/link';
 
+import styled from "styled-components";
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 
-// import { ArrowBack } from '@styled-icons/evaicons-solid';
 import InputComponent from '@/components/Ui/Input';
 import Layout from '@/components/Layout';
 import { formatCreditCardNumber, formatExpirationDate, formatCVC } from '@/utils/utils';
-import { Container } from './styles';
 import ButtonComponent, { BackButtonComponent } from '@/components/Ui/Button';
 import PriceComponent from '@/components/Ui/Price';
-import Link from 'next/link';
+import { breakpoints } from "@/styles/utils";
+
+export const Container = styled.div`
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+  margin-right: 12px;
+  min-height: 70%;
+  @media (min-width: ${breakpoints.desktop}px) {
+    display: flex;
+    height: 100%;
+  }
+`;
+
 
 export default class PaymentForm extends React.Component {
   state = {
