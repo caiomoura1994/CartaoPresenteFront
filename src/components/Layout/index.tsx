@@ -16,7 +16,7 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
   <>
     <Link href="/">
       <NavbarContainer>
-        <img src="/assets/logo.png" alt="logo" layout="fixed" width={160} height={60} />
+        <img src="/assets/logo.png" alt="logo" width={160} height={60} />
       </NavbarContainer>
     </Link>
     <Head>
