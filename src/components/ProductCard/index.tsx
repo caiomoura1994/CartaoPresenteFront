@@ -28,8 +28,8 @@ const ProductCard = () => {
       <Item>
         <Preview>
           <Image
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHk9uYqH7LCLq-zmw6F9gdoX-MDCyaXSbIhQ&usqp=CAU"
-            alt="logo"
+            src="/assets/uber.png"
+            alt="uber"
             layout="responsive"
             width={"100%"}
             height={"auto"}

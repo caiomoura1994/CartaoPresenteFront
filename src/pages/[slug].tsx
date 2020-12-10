@@ -48,7 +48,7 @@ const StaticPropsDetail = ({ item }: Props) => {
       <ProductContainer>
         <ImageContainer>
           <Image
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHk9uYqH7LCLq-zmw6F9gdoX-MDCyaXSbIhQ&usqp=CAU"
+            src="/assets/uber.png"
             alt="logo"
             layout="responsive"
             width={"100%"}
