@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
 
 import {
@@ -27,10 +27,10 @@ const ProductCard = () => {
     <ProductListingItemLink>
       <Item>
         <Preview>
-          <Image
+          <img
             src="/assets/uber.png"
             alt="uber"
-            layout="responsive"
+            // layout="responsive"
             width={"100%"}
             height={"auto"}
           />

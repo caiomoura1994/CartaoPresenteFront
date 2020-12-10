@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from 'react';
 
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
 
 import { ProductInterface } from '@/interfaces'
@@ -47,10 +47,10 @@ const StaticPropsDetail = ({ item }: Props) => {
       <BackButtonComponent />
       <ProductContainer>
         <ImageContainer>
-          <Image
+          <img
             src="/assets/uber.png"
             alt="logo"
-            layout="responsive"
+            // layout="responsive"
             width={"100%"}
             height={"auto"}
           />
