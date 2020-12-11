@@ -32,6 +32,7 @@ export default class PaymentForm extends React.Component {
     focus: undefined,
     name: '',
     number: '',
+    email: '',
   };
 
   handleInputFocus = (e: any) => {
@@ -47,7 +48,6 @@ export default class PaymentForm extends React.Component {
     } else if (name === "cvc") {
       value = formatCVC(value);
     }
-    console.log(value)
 
     this.setState({ [name]: value });
   }
@@ -68,6 +68,13 @@ export default class PaymentForm extends React.Component {
           </div>
           <form style={{ marginLeft: 24, marginRight: 24 }}>
             <div>
+              <InputComponent
+                type="email"
+                name="email"
+                value={this.state.email}
+                placeholder="E-mail"
+                onChange={this.handleInputChange}
+              />
               <InputComponent
                 type="text"
                 name="name"
