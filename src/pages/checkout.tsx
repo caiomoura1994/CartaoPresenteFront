@@ -115,7 +115,7 @@ export default class PaymentForm extends React.Component {
               />
             </div>
             <PriceComponent style={{ justifyContent: 'center' }} value={100} />
-            <Link href={`/`}>
+            <Link href={`/sale-finished`}>
               <div>
                 <ButtonComponent style={{ marginTop: 24 }} fullWidth size="lg">
                   Comprar
