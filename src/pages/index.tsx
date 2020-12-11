@@ -3,6 +3,7 @@ import ProductCard from '@/components/ProductCard'
 import styled from 'styled-components';
 
 import { breakpoints, spacing, colors, fonts } from '@/styles/utils';
+import WhatsappIcon from '@/components/Ui/WhatsappIcon';
 
 const ProductListingContainer = styled.div`
   display: flex;
@@ -39,6 +40,7 @@ const IndexPage = () => (
         return <ProductCard key={d} />
       })}
     </ProductListingContainer>
+    <WhatsappIcon />
   </Layout>
 )
 
