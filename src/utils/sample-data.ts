@@ -18,6 +18,8 @@ export const productsMock: ProductInterface[] = [
       medium: "",
     },
     stock: 10,
-    value: 100,
+    price: 100,
+    description: "",
+    is_active: true,
   },
 ];

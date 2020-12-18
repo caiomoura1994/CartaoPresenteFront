@@ -1,47 +1,57 @@
 import Layout from '@/components/Layout'
 import ProductCard from '@/components/ProductCard'
-import styled from 'styled-components';
-
-import { breakpoints, spacing, colors, fonts } from '@/styles/utils';
 import WhatsappIcon from '@/components/Ui/WhatsappIcon';
+import { GetServerSideProps } from 'next';
+import { PaginatedProductsInterface } from '@/interfaces';
+import { useState, useEffect } from 'react';
+import { ProductListingContainer, Title } from '@/styles/pages/Home';
 
-const ProductListingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: ${spacing.lg}px;
+const LIMIT = 10;
 
-  @media (min-width: ${breakpoints.desktop}px) {
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: ${spacing['2xl']}px;
+const IndexPage = (props: PaginatedProductsInterface) => {
+  const [paginatedRequest, setPaginatedRequest] = useState(props);
+  const [products, setProducts] = useState(props.results);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchMore = async () => {
+    setIsLoading(true)
+    const response = await fetch(`${paginatedRequest.next}&limit=${LIMIT}`)
+    const json: PaginatedProductsInterface = await response.json()
+    setPaginatedRequest(json)
+    setProducts([...products, ...json.results])
+    setIsLoading(false)
+  };
+
+  const infiniteScroll = () => {
+    const screenHeight = window.innerHeight + document.documentElement.scrollTop
+    if (screenHeight === document.documentElement.offsetHeight && paginatedRequest.next) {
+      fetchMore()
+    }
   }
-`;
 
-export const Title = styled.h1`
-  color: ${colors.brandDark};
-  font-family: ${fonts.heading};
-  font-size: 2rem;
-  line-height: 1.2;
-  margin: 0;
-  text-align: center;
+  useEffect(() => {
+    window.addEventListener('scroll', infiniteScroll);
+  }, [])
 
-  @media (min-width: ${breakpoints.desktop}px) {
-    margin: ${spacing['2xl']}px;
-    font-size: 3rem;
+  return (
+    <Layout title="Home | Next.js + TypeScript Example">
+      <Title>Cartão presente</Title>
+      <ProductListingContainer>
+        {products.map((product) => <ProductCard key={product.id} product={product} />)}
+        {isLoading && "Carregando ..."}
+
+      </ProductListingContainer>
+      <WhatsappIcon />
+    </Layout>
+  )
+}
+
+export const getServerSideProps: GetServerSideProps<PaginatedProductsInterface> = async () => {
+  const response = await fetch('https://cartao-presente.herokuapp.com/product/');
+  const productsPaginated = await response.json() as PaginatedProductsInterface;
+
+  return {
+    props: productsPaginated
   }
-`;
-
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <Title>Cartão presente</Title>
-    <ProductListingContainer>
-      {[1, 2, 3, 4].map((d) => {
-        return <ProductCard key={d} />
-      })}
-    </ProductListingContainer>
-    <WhatsappIcon />
-  </Layout>
-)
-
+}
 export default IndexPage

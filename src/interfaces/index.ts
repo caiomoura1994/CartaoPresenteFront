@@ -20,5 +20,14 @@ export interface ProductInterface {
   name: string;
   photo: ImageResolutions;
   stock: number;
-  value: number;
+  price: number;
+  is_active: Boolean;
+  description: string;
+}
+
+export interface PaginatedProductsInterface {
+  count: number;
+  next: string;
+  previous: string;
+  results: ProductInterface[];
 }

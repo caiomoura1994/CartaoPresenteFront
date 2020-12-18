@@ -15,20 +15,17 @@ import {
   removeCareInstructions,
   cutDescriptionShort
 } from '@/styles/utils';
+import { ProductInterface } from '@/interfaces';
 
 const DESCRIPTION_LIMIT = 90;
 
-const ProductCard = () => {
-  const title = "titulo"
-  const id = 1
-  const description = "asdfasdf adf asdf asd f asdf asd f asdf asd fas dfasdf asd fasd fa sdf asdasdfasdf adf asdf asd f asdf asd f asdf asd fas dfasdf asd fasd fa sdf asd"
-
-  return <Link href={`/${id}`} aria-label={title}>
+const ProductCard = ({ product }: { product: ProductInterface }) => {
+  return <Link href={`/${product.id}`} aria-label={product.name}>
     <ProductListingItemLink>
       <Item>
         <Preview>
           <img
-            src="/assets/uber.png"
+            src={product.photo.large}
             alt="uber"
             // layout="responsive"
             width={"100%"}
@@ -36,10 +33,10 @@ const ProductCard = () => {
           />
         </Preview>
 
-        <Name>{title}</Name>
+        <Name>{product.name}</Name>
         <Description>
           {cutDescriptionShort(
-            removeCareInstructions(description),
+            removeCareInstructions(product.description),
             DESCRIPTION_LIMIT
           )}
         </Description>
