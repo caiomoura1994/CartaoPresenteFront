@@ -81,11 +81,15 @@ const CartIcon = styled.span`
   }
 `;
 
+interface PriceComponentInterface {
+  value: number;
+  withCardIcon: boolean;
+}
 
-const PriceComponent = ({ value, withCardIcon, ...props }: any) => {
+const PriceComponent = ({ value, withCardIcon, ...props }: PriceComponentInterface) => {
   return <PriceRow {...props}>
     <PriceTextContainer>
-      <span>R$</span> {value},00
+      <span>R$</span> {value}
     </PriceTextContainer>
     {withCardIcon && <Incentive>
       <span>

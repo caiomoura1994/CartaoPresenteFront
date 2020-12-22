@@ -41,7 +41,7 @@ const ProductCard = ({ product }: { product: ProductInterface }) => {
             DESCRIPTION_LIMIT
           )}
         </Description>}
-        <PriceComponent value={100} withCardIcon />
+        <PriceComponent value={product.price} withCardIcon />
       </Item>
     </ProductListingItemLink>
   </Link>
