@@ -9,6 +9,7 @@ import Layout from '@/components/Layout'
 import PriceComponent from '@/components/Ui/Price';
 import ButtonComponent, { BackButtonComponent } from '@/components/Ui/Button';
 import { radius, breakpoints } from "@/styles/utils";
+import { GetStaticProps, GetStaticPaths } from "next";
 
 const ImageContainer = styled.div`
   width: 100%;
@@ -48,7 +49,7 @@ const StaticPropsDetail = ({ item }: Props) => {
       <ProductContainer>
         <ImageContainer>
           <img
-            src="/assets/uber.png"
+            src={item?.images[0].original}
             alt="logo"
             // layout="responsive"
             width={"100%"}
@@ -56,8 +57,8 @@ const StaticPropsDetail = ({ item }: Props) => {
           />
         </ImageContainer>
         <div>
-          <h1>Nome do produto</h1>
-          <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor error, in, exercitationem eaque illo unde modi earum, deserunt sequi eius atque quibusdam porro nam dolores aperiam voluptates qui sed eum.</h5>
+          <h1>{item?.name}</h1>
+          <h5>Últimas unidades da promoção.</h5>
           <div style={{ display: "flex", flexDirection: "row", alignItems: 'center', margin: 12 }}>
             <ButtonComponent onClick={() => value > 5 && setValue(value - 5)} outlined>-</ButtonComponent>
             <PriceComponent style={{ marginLeft: 24, marginRight: 24 }} value={value} />
@@ -86,3 +87,18 @@ const StaticPropsDetail = ({ item }: Props) => {
 
 export default StaticPropsDetail
 
+export const getStaticProps: GetStaticProps<Props, { id: string }> = async context => {
+  const params = context.params;
+  const response = await fetch(`https://cartao-presente.herokuapp.com/product/${params?.id}/`);
+  const item = await response.json()
+  return {
+    props: {
+      item
+    },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: [{ params: { id: '1' } }],
+  fallback: true,
+});

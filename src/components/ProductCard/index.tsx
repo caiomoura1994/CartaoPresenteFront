@@ -20,12 +20,13 @@ import { ProductInterface } from '@/interfaces';
 const DESCRIPTION_LIMIT = 90;
 
 const ProductCard = ({ product }: { product: ProductInterface }) => {
+  const [firstImage] = product?.images
   return <Link href={`/${product.id}`} aria-label={product.name}>
     <ProductListingItemLink>
       <Item>
         <Preview>
           <img
-            src={product.photo.large}
+            src={firstImage?.original}
             alt="uber"
             // layout="responsive"
             width={"100%"}
@@ -34,12 +35,12 @@ const ProductCard = ({ product }: { product: ProductInterface }) => {
         </Preview>
 
         <Name>{product.name}</Name>
-        <Description>
+        {product?.description && <Description>
           {cutDescriptionShort(
-            removeCareInstructions(product.description),
+            removeCareInstructions(product?.description),
             DESCRIPTION_LIMIT
           )}
-        </Description>
+        </Description>}
         <PriceComponent value={100} withCardIcon />
       </Item>
     </ProductListingItemLink>

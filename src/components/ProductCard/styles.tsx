@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 import {
-    breakpoints,
-    colors,
-    fonts,
-    radius,
-    spacing,
-    animations
+  breakpoints,
+  colors,
+  fonts,
+  radius,
+  spacing,
+  animations
 } from '@/styles/utils';
 
 const TRANSITION_DURATION = '250ms';
@@ -35,7 +35,6 @@ export const ProductListingItemLink = styled.a`
   @media (hover: hover) {
     :hover {
         cursor: pointer;
-        background: ${colors.brandLighter};
     }
   }
 `;
@@ -57,6 +56,8 @@ export const Preview = styled.div`
 
   img {
     transition: all ${TRANSITION_DURATION};
+    height: 30vh;
+    object-fit: contain;
   }
 
   @media (hover: hover) {
@@ -95,9 +96,9 @@ export const CodeEligibility = styled.div`
 
   span:last-child {
     background: ${(props: any) =>
-        props.freeWith === 'HOLYBUCKETS' ? colors.lemon : colors.brand};
+    props.freeWith === 'HOLYBUCKETS' ? colors.lemon : colors.brand};
     color: ${(props: any) =>
-        props.freeWith === 'HOLYBUCKETS' ? colors.brand : colors.lemon};
+    props.freeWith === 'HOLYBUCKETS' ? colors.brand : colors.lemon};
     flex-basis: 65%;
     font-family: ${fonts.heading};
     font-size: 1rem;

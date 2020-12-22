@@ -10,15 +10,15 @@ export type User = {
 };
 
 export type ImageResolutions = {
-  small?: string;
+  original?: string;
   medium?: string;
-  large?: string;
+  small?: string;
 };
 
 export interface ProductInterface {
   id: number;
   name: string;
-  photo: ImageResolutions;
+  images: ImageResolutions[];
   stock: number;
   price: number;
   is_active: Boolean;
