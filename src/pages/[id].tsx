@@ -74,7 +74,10 @@ const StaticPropsDetail = ({ item }: Props) => {
             <ButtonComponent outlined={value !== 250} onClick={() => setValue(250)} style={{ margin: 8 }}>R$ 250,00</ButtonComponent>
             <ButtonComponent outlined={value !== 500} onClick={() => setValue(500)} style={{ margin: 8 }}>R$ 500,00</ButtonComponent>
           </div>
-          <Link href={`/checkout`}>
+          <Link href={{
+            pathname: `/checkout`,
+            query: { value, productId: item.id }
+          }}>
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}>
               <ButtonComponent size="lg">Comprar</ButtonComponent>
             </div>

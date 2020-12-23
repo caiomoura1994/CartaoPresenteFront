@@ -53,6 +53,35 @@ export default class PaymentForm extends React.Component {
   }
 
   render() {
+    let value = "0";
+    if (process.browser) {
+      const urlParams = new URLSearchParams(window.location.search);
+      value = urlParams.get('value') || "0";
+    }
+
+    const doCheckout = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('productId');
+      const props = {
+        product: [Number(productId)],
+        email: this.state.email,
+        name: this.state.name,
+        amount: Number(value)
+      }
+
+      console.log(props)
+      const response = await fetch(`https://cartao-presente.herokuapp.com/order/`, {
+        method: "POST",
+        body: JSON.stringify(props)
+      });
+      const item = await response.json()
+      console.log(item)
+      if (item.id) {
+        window.location.href = `/sale-finished?saleId=${item.id}`;
+      }
+      return productId
+    }
+
     return (
       <Layout title="About | Next.js + TypeScript Example">
         <BackButtonComponent />
@@ -114,10 +143,10 @@ export default class PaymentForm extends React.Component {
                 onFocus={this.handleInputFocus}
               />
             </div>
-            <PriceComponent style={{ justifyContent: 'center' }} value={100} />
+            <PriceComponent style={{ justifyContent: 'center' }} value={Number(value)} />
             <Link href={`/sale-finished`}>
               <div>
-                <ButtonComponent style={{ marginTop: 24 }} fullWidth size="lg">
+                <ButtonComponent onClick={doCheckout} style={{ marginTop: 24 }} fullWidth size="lg">
                   Comprar
                 </ButtonComponent>
               </div>

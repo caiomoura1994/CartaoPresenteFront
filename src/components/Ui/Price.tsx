@@ -8,10 +8,11 @@ import {
   spacing,
 } from '@/styles/utils';
 import { ProductListingItemLink } from "../ProductCard/styles";
+import { InputHTMLAttributes } from "react";
 
 const TRANSITION_DURATION = '250ms';
 
-const PriceRow = styled.div`
+const PriceRow = styled.div<PriceComponentInterface>`
   align-items: flex-end;
   display: flex;
   justify-content: space-between;
@@ -81,17 +82,17 @@ const CartIcon = styled.span`
   }
 `;
 
-interface PriceComponentInterface {
-  value: number;
-  withCardIcon: boolean;
+export interface PriceComponentInterface extends Partial<InputHTMLAttributes<HTMLDivElement>> {
+  value?: number;
+  withCardIcon?: boolean;
 }
 
-const PriceComponent = ({ value, withCardIcon, ...props }: PriceComponentInterface) => {
+const PriceComponent = (props: PriceComponentInterface) => {
   return <PriceRow {...props}>
     <PriceTextContainer>
-      <span>R$</span> {value}
+      <span>R$</span> {props.value}
     </PriceTextContainer>
-    {withCardIcon && <Incentive>
+    {props.withCardIcon && <Incentive>
       <span>
         Ver detalhes <br />& Comprar <ArrowForward width={20} />
       </span>
