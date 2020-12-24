@@ -4,7 +4,7 @@ import { useState } from 'react';
 // import Image from 'next/image';
 import Link from 'next/link';
 
-import { ProductInterface } from '@/interfaces'
+import { ProductInterface, PaginatedProductsInterface } from '@/interfaces'
 import Layout from '@/components/Layout'
 import PriceComponent from '@/components/Ui/Price';
 import ButtonComponent, { BackButtonComponent } from '@/components/Ui/Button';
@@ -76,7 +76,7 @@ const StaticPropsDetail = ({ item }: Props) => {
           </div>
           <Link href={{
             pathname: `/checkout`,
-            query: { value, productId: item.id }
+            query: { value, productId: item?.id }
           }}>
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}>
               <ButtonComponent size="lg">Comprar</ButtonComponent>
@@ -101,7 +101,13 @@ export const getStaticProps: GetStaticProps<Props, { id: string }> = async conte
   };
 };
 
-export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: [{ params: { id: '1' } }],
-  fallback: true,
-});
+export const getStaticPaths: GetStaticPaths = async () => {
+  const response = await fetch(`https://cartao-presente.herokuapp.com/product/`);
+  const item: PaginatedProductsInterface = await response.json();
+  const paths = item.results.map(({ id }) => ({ params: { id: String(id) } }))
+
+  return ({
+    paths,
+    fallback: true,
+  });
+}

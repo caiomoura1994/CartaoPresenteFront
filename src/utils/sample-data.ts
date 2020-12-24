@@ -12,11 +12,11 @@ export const productsMock: ProductInterface[] = [
   {
     id: 1,
     name: "Prod1",
-    photo: {
-      large: "",
-      small: "",
+    images: [{
+      original: "",
       medium: "",
-    },
+      small: "",
+    }],
     stock: 10,
     price: 100,
     description: "",
