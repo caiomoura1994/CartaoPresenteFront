@@ -50,7 +50,7 @@ const StaticPropsDetail = ({ item }: Props) => {
         <ImageContainer>
           <img
             src={item?.images[0].original}
-            alt="logo"
+            alt={`product-${item?.id}`}
             // layout="responsive"
             width={"100%"}
             height={"auto"}
@@ -77,7 +77,7 @@ const StaticPropsDetail = ({ item }: Props) => {
             query: { value, productId: item?.id }
           }}>
             <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
-              <ButtonComponent size="lg">Comprar</ButtonComponent>
+              <ButtonComponent fullWidth size="lg">Comprar</ButtonComponent>
             </div>
           </Link>
         </div>

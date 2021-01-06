@@ -27,7 +27,7 @@ const ProductCard = ({ product }: { product: ProductInterface }) => {
         <Preview>
           <img
             src={firstImage?.original}
-            alt="uber"
+            alt={`product-${product.id}`}
             // layout="responsive"
             width={"100%"}
             height={"auto"}
