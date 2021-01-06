@@ -68,8 +68,6 @@ const StaticPropsDetail = ({ item }: Props) => {
             <ButtonComponent outlined={value !== 5} onClick={() => setValue(5)} style={{ margin: 8 }}>R$ 5,00</ButtonComponent>
             <ButtonComponent outlined={value !== 25} onClick={() => setValue(25)} style={{ margin: 8 }}>R$ 25,00</ButtonComponent>
             <ButtonComponent outlined={value !== 50} onClick={() => setValue(50)} style={{ margin: 8 }}>R$ 50,00</ButtonComponent>
-          </div>
-          <div>
             <ButtonComponent outlined={value !== 100} onClick={() => setValue(100)} style={{ margin: 8 }}>R$ 100,00</ButtonComponent>
             <ButtonComponent outlined={value !== 250} onClick={() => setValue(250)} style={{ margin: 8 }}>R$ 250,00</ButtonComponent>
             <ButtonComponent outlined={value !== 500} onClick={() => setValue(500)} style={{ margin: 8 }}>R$ 500,00</ButtonComponent>
@@ -78,7 +76,7 @@ const StaticPropsDetail = ({ item }: Props) => {
             pathname: `/checkout`,
             query: { value, productId: item?.id }
           }}>
-            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}>
+            <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
               <ButtonComponent size="lg">Comprar</ButtonComponent>
             </div>
           </Link>
