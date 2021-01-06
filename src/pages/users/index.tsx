@@ -12,7 +12,7 @@ type Props = {
 }
 
 const WithStaticProps = ({ items }: Props) => (
-  <Layout title="Users List | Next.js + TypeScript Example">
+  <Layout title="Users List | Presente Cartão">
     <h1>Users List</h1>
     <p>
       Example fetching data from inside <code>getStaticProps()</code>.

@@ -83,7 +83,7 @@ export default class PaymentForm extends React.Component {
     }
 
     return (
-      <Layout title="About | Next.js + TypeScript Example">
+      <Layout title="Checkout | Presente Cartão">
         <BackButtonComponent />
         <Container>
           <div>

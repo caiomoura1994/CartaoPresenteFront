@@ -18,7 +18,7 @@ const SaleFinished = ({ item }: Props) => {
     <Layout
       title={`${
         item ? item.name : 'ProductInterface Detail'
-        } | Next.js + TypeScript Example`}
+        } | Presente Cartão`}
     >
       <BackButtonComponent />
       <div style={{ textAlign: "center", marginBottom: 24 }}>

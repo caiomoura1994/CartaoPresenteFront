@@ -17,6 +17,7 @@ export type ImageResolutions = {
 
 export interface ProductInterface {
   id: number;
+  slug: string;
   name: string;
   images: ImageResolutions[];
   stock: number;

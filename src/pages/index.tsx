@@ -34,7 +34,7 @@ const IndexPage = (props: PaginatedProductsInterface) => {
   }, [])
 
   return (
-    <Layout title="Home | Next.js + TypeScript Example">
+    <Layout title="Home | Presente Cartão">
       <Title>Cartão presente</Title>
       <ProductListingContainer>
         {products.map((product) => <ProductCard key={product.id} product={product} />)}

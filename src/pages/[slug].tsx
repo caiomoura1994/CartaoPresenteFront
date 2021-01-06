@@ -43,14 +43,14 @@ const StaticPropsDetail = ({ item }: Props) => {
     <Layout
       title={`${
         item ? item.name : 'ProductInterface Detail'
-        } | Next.js + TypeScript Example`}
+        } | Presente Cartão`}
     >
       <BackButtonComponent />
       <ProductContainer>
         <ImageContainer>
           <img
             src={item?.images[0].original}
-            alt={`product-${item?.id}`}
+            alt={item?.slug}
             // layout="responsive"
             width={"100%"}
             height={"auto"}
@@ -88,9 +88,9 @@ const StaticPropsDetail = ({ item }: Props) => {
 
 export default StaticPropsDetail
 
-export const getStaticProps: GetStaticProps<Props, { id: string }> = async context => {
+export const getStaticProps: GetStaticProps<Props, { slug: string }> = async context => {
   const params = context.params;
-  const response = await fetch(`https://cartao-presente.herokuapp.com/product/${params?.id}/`);
+  const response = await fetch(`https://cartao-presente.herokuapp.com/product/${params?.slug}/`);
   const item = await response.json()
   return {
     props: {
@@ -102,7 +102,7 @@ export const getStaticProps: GetStaticProps<Props, { id: string }> = async conte
 export const getStaticPaths: GetStaticPaths = async () => {
   const response = await fetch(`https://cartao-presente.herokuapp.com/product/`);
   const item: PaginatedProductsInterface = await response.json();
-  const paths = item.results.map(({ id }) => ({ params: { id: String(id) } }))
+  const paths = item.results.map(({ slug }) => ({ params: { slug: String(slug) } }))
 
   return ({
     paths,

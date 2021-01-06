@@ -21,13 +21,13 @@ const DESCRIPTION_LIMIT = 90;
 
 const ProductCard = ({ product }: { product: ProductInterface }) => {
   const [firstImage] = product?.images
-  return <Link href={`/${product.id}`} aria-label={product.name}>
+  return <Link href={`/${product.slug}`} aria-label={product.name}>
     <ProductListingItemLink>
       <Item>
         <Preview>
           <img
             src={firstImage?.original}
-            alt={`product-${product.id}`}
+            alt={product.slug}
             // layout="responsive"
             width={"100%"}
             height={"auto"}
