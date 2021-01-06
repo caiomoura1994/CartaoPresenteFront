@@ -12,6 +12,7 @@ export const productsMock: ProductInterface[] = [
   {
     id: 1,
     name: "Prod1",
+    slug: "Prod1",
     images: [{
       original: "",
       medium: "",
