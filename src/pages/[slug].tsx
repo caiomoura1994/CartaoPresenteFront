@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { useState } from 'react';
 
 // import Image from 'next/image';
-import Link from 'next/link';
+// import Link from 'next/link';
+import { loadStripe } from '@stripe/stripe-js';
 
 import { ProductInterface, PaginatedProductsInterface } from '@/interfaces'
 import Layout from '@/components/Layout'
@@ -32,12 +33,53 @@ const ProductContainer = styled.div`
   }
 `;
 
-
 type Props = {
   item?: ProductInterface
 }
 const StaticPropsDetail = ({ item }: Props) => {
   const [value, setValue] = useState(5);
+
+  const registerOrder = async (checkoutId: string) => {
+    const productId = item?.id
+    const props = {
+      product: [Number(productId)],
+      amount: Number(value),
+      stripe_checkout_key: checkoutId
+    }
+    const res = await fetch('https://cartao-presente.herokuapp.com/order/', {
+      method: "POST",
+      body: JSON.stringify(props),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+    return res
+  }
+
+  const createCheckout = async () => {
+    const response = await fetch(`https://cartao-presente.herokuapp.com/create-checkout-session/`, {
+      method: "post",
+      body: JSON.stringify({
+        product_slug: item?.slug,
+        amount: value * 100,
+        domain_url: window.location.origin,
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+    const checkoutData = await response.json()
+    console.log('checkoutData:', checkoutData)
+    const registerRes = await registerOrder(checkoutData?.id)
+    console.log('registerRes',await registerRes.json())
+    const stripePromise = await loadStripe('pk_test_51HCbBYA8wNRuG06I8HpP1j6tHmgAnz4U7im24KHMluzgitv4nqDOicJBp4Jf1hyYNUE1UPuF1UkbLD46KEa3i2z600vyVKUiw8');
+    const redirected = await stripePromise?.redirectToCheckout({
+      sessionId: checkoutData.id,
+    });
+    if (redirected?.error) {
+      alert(redirected?.error)
+    }
+  };
 
   return (
     <Layout
@@ -72,14 +114,18 @@ const StaticPropsDetail = ({ item }: Props) => {
             <ButtonComponent outlined={value !== 250} onClick={() => setValue(250)} style={{ margin: 8 }}>R$ 250,00</ButtonComponent>
             <ButtonComponent outlined={value !== 500} onClick={() => setValue(500)} style={{ margin: 8 }}>R$ 500,00</ButtonComponent>
           </div>
-          <Link href={{
+          {/* <Link href={{
             pathname: `/checkout`,
             query: { value, productId: item?.id }
           }}>
-            <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
-              <ButtonComponent fullWidth size="lg">Comprar</ButtonComponent>
-            </div>
-          </Link>
+          </Link> */}
+          <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
+            <ButtonComponent
+              onClick={createCheckout}
+              fullWidth
+              size="lg"
+            >Comprar</ButtonComponent>
+          </div>
         </div>
       </ProductContainer>
     </Layout>

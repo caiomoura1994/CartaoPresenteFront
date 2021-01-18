@@ -37,7 +37,7 @@ const IndexPage = (props: PaginatedProductsInterface) => {
     <Layout title="Home | Presente Cartão">
       <Title>Cartão presente</Title>
       <ProductListingContainer>
-        {products.map((product) => <ProductCard key={product.id} product={product} />)}
+        {products.map((product) => <ProductCard key={product.slug} product={product} />)}
         {isLoading && "Carregando ..."}
 
       </ProductListingContainer>

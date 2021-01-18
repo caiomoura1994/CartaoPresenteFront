@@ -1,0 +1,790 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8"/>
+    <title>Stripe Card Payment</title>
+    <meta name="description" content="A demo of Stripe Payment Intents"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <script src="/skin/js/lib/jquery/dist/jquery-a09e13ee94.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="/skin/css/component-btw-64b087b45f.css">
+    <link rel="stylesheet" href="/skin/css/style-01e158cccb.css">
+    <link rel="stylesheet" href="/skin/css/pay-6346e0bb65.css">
+    <link rel="stylesheet" type="text/css" href="/skin/css/stripe/store-a740ae4b7b.css"/>
+    <link rel="icon" href="/skin/fav.ico">
+</head>
+
+<body>
+<main id="main" class="checkout">
+    <div id="checkout">
+        <div id="seagmpay_logo">
+            <svg id="logo_svg" viewBox="0 0 225 50" width="225" height="50">
+                <path fill="#f9001a" d="M46.5,13.8c0-0.7-0.4-1.4-1-1.8L26,0.8c-0.6-0.4-1.4-0.4-2.1,0L4.5,12c-0.6,0.4-1,1.1-1,1.8l0,22.4c0,0.7,0.4,1.4,1,1.8L24,49.2c0.6,0.4,1.4,0.4,2.1,0L45.5,38c0.6-0.4,1-1.1,1-1.8L46.5,13.8z M29.1,40.6l0.1-5.2c3.4-0.3,5.8-3.1,5.9-7.6c0.1-5-2.1-7.9-6.9-8c-0.9,0-1.9,0.2-2.5,0.6l-0.1,4l3.8,0.1l-0.1,8.1c-1.8,1.7-4.9,3-8.5,2.9c-7-0.1-12.5-4.6-12.3-13.2c0.1-8.2,5.5-12.8,12-13l-0.1,5.2c-3.3,0.4-5.6,3.2-5.7,7.7c-0.1,5,2.1,8,6.8,8.1c0.9,0,1.9-0.2,2.4-0.6l0.1-4.1l-3.6-0.1l0-0.1l-0.2,0l0.1-7.9c1.8-1.6,5-3,8.6-2.9c7.1,0.1,12.6,4.6,12.5,13C41.2,35.9,35.7,40.5,29.1,40.6z"></path>
+                <path transform="scale(.5)translate(112 25)" d="M30.7,37.4c0-2.7-0.9-4.8-2.8-6.4c-1.9-1.6-5.4-3.1-10.4-4.5s-8.7-3-11-4.6c-3.3-2.4-4.9-5.5-4.9-9.3c0-3.7,1.5-6.7,4.6-9.1S13.1,0,17.9,0c3.2,0,6.1,0.6,8.7,1.9s4.5,3,5.9,5.2c1.4,2.2,2.1,4.7,2.1,7.5h-4.1c0-3.3-1.1-6-3.4-8s-5.3-3-9.2-3C14.2,3.5,11.2,4.3,9,6c-2.2,1.7-3.3,3.8-3.3,6.5c0,2.5,1,4.5,3,6.1c2,1.6,5.2,2.9,9.5,4.1s7.7,2.4,9.9,3.7s3.9,2.8,5.1,4.6s1.7,3.9,1.7,6.3c0,3.8-1.5,6.9-4.6,9.2S23.2,50,18.2,50c-3.4,0-6.6-0.6-9.4-1.8s-5-2.9-6.5-5.1S0,38.3,0,35.4h4.1c0,3.4,1.3,6.1,3.8,8.1s6,3,10.2,3c3.8,0,6.8-0.8,9.1-2.5S30.7,40.1,30.7,37.4zM67.4,26H44.6v19.9h26.2v3.5H40.5V0.7h30.1v3.5h-26v18.4h22.8V26zM100.6,35.7H78.6l-5,13.7h-4.3L87.6,0.7h3.9L110,49.3h-4.3L100.6,35.7z M79.8,32.2h19.5L89.6,5.7L79.8,32.2zM146.2,43.5c-1.4,2-3.7,3.6-6.7,4.7S133,50,129.3,50c-3.8,0-7.2-0.9-10.2-2.7c-3-1.8-5.3-4.4-6.9-7.8c-1.6-3.3-2.5-7.2-2.5-11.5v-6.1c0-6.8,1.7-12.1,5.1-16c3.4-3.9,8-5.9,13.7-5.9c5,0,9,1.3,12.1,3.8s4.9,6.1,5.4,10.5H142c-0.6-3.6-2.1-6.3-4.4-8.1s-5.3-2.8-9-2.8c-4.5,0-8.1,1.6-10.8,4.8c-2.7,3.2-4,7.8-4,13.7v5.8c0,3.7,0.6,7,1.9,9.8c1.3,2.8,3.1,5,5.4,6.6c2.4,1.6,5.1,2.3,8.1,2.3c3.5,0,6.6-0.6,9.1-1.7c1.6-0.7,2.9-1.6,3.7-2.6V29.7H129v-3.5h17.2V43.5zM157.4,0.7l17.9,42.9l18-42.9h5.5v48.7h-4.1V28.1l0.3-21.7L177,49.3h-3.2l-18-42.7l0.3,21.4v21.3H152V0.7H157.4z"></path>
+                <path transform="scale(.5)translate(330 25)" d="M10,32.2v17.1H0V0.7h19c3.7,0,6.9,0.7,9.6,2s4.9,3.2,6.4,5.7s2.2,5.3,2.2,8.4c0,4.8-1.6,8.5-4.9,11.3s-7.8,4.1-13.6,4.1H10z M10,24.1h9c2.7,0,4.7-0.6,6.1-1.9c1.4-1.2,2.1-3,2.1-5.3c0-2.4-0.7-4.3-2.1-5.8s-3.3-2.2-5.8-2.3H10V24.1zM62.3,39.3H44.7l-3.3,10H30.7L48.8,0.7h9.3l18.2,48.7H65.6L62.3,39.3z M47.4,31.2h12.2L53.4,13L47.4,31.2zM89.2,22.6L99.3,0.7h11l-16,31v17.6H84.1V31.7l-16-31h11L89.2,22.6z"></path>
+            </svg>
+        </div>
+        <form id="payment-form" method="post" action="">
+            <span id="generate"></span>
+            <section>
+                <h2>Shipping &amp; Billing Information</h2>
+                <fieldset class="with-state">
+                    <label>
+                        <span>Name</span>
+                        <input name="name" class="field" placeholder="Name" maxlength="40" value="" required>
+                    </label>
+                    <label>
+                        <span>Email</span>
+                        <input name="email" type="email" class="field" placeholder="Email" maxlength="40" value="caiomoura1994@gmail.com" required>
+                    </label>
+                </fieldset>
+            </section>
+            <section>
+                <h2>Payment Information </h2>
+                <nav id="payment-methods">
+                    <ul>
+                        <li>
+                            <input type="radio" name="payment" id="payment-card" value="card" checked>
+                            <label for="payment-card">Card</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-ach_credit_transfer" value="ach_credit_transfer">
+                            <label for="payment-ach_credit_transfer">Bank Transfer</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-alipay" value="alipay">
+                            <label for="payment-alipay">Alipay</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-bancontact" value="bancontact">
+                            <label for="payment-bancontact">Bancontact</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-eps" value="eps">
+                            <label for="payment-eps">EPS</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-ideal" value="ideal">
+                            <label for="payment-ideal">iDEAL</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-giropay" value="giropay">
+                            <label for="payment-giropay">Giropay</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-multibanco" value="multibanco">
+                            <label for="payment-multibanco">Multibanco</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-p24" value="p24">
+                            <label for="payment-p24">Przelewy24</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-sepa_debit" value="sepa_debit">
+                            <label for="payment-sepa_debit">SEPA Direct Debit</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-sofort" value="sofort">
+                            <label for="payment-sofort">SOFORT</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-wechat" value="wechat">
+                            <label for="payment-wechat">WeChat Pay</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="payment" id="payment-au_becs_debit" value="au_becs_debit">
+                            <label for="payment-au_becs_debit">BECS Direct Debit</label>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="payment-info card visible">
+                    <fieldset>
+                        <label>
+                            <span>Card</span>
+                            <div id="card-element" class="field"></div>
+                        </label>
+                    </fieldset>
+                </div>
+                <div class="payment-info sepa_debit">
+                    <fieldset>
+                        <label>
+                            <span>IBAN</span>
+                            <div id="iban-element" class="field"></div>
+                        </label>
+                    </fieldset>
+                    <p class="notice">By providing your IBAN and confirming this payment, you’re authorizing Payments Demo and Stripe, our payment
+                        provider, to send instructions to your bank to debit your account. You’re entitled to a refund under the terms
+                        and conditions of your agreement with your bank.</p>
+                </div>
+                <div class="payment-info ideal">
+                    <fieldset>
+                        <label>
+                            <span>iDEAL Bank</span>
+                            <div id="ideal-bank-element" class="field"></div>
+                        </label>
+                    </fieldset>
+                </div>
+                <div class="payment-info redirect">
+                    <p class="notice">You’ll be redirected to the banking site to complete your payment.</p>
+                </div>
+                <div class="payment-info receiver">
+                    <p class="notice">Payment information will be provided after you place the order.</p>
+                </div>
+                <div class="payment-info wechat">
+                    <div id="wechat-qrcode"></div>
+                    <p class="notice">Click the button below to generate a QR code for WeChat.</p>
+                </div>
+                <div class="payment-info au_becs_debit">
+                    <fieldset>
+                        <label>
+                            <span>Bank Account</span>
+                            <div id="becs-bank-element" class="field"></div>
+                        </label>
+                    </fieldset>
+                    <p class="notice">By providing your bank account details and confirming this payment, you agree to this Direct Debit Request and
+                        the Direct Debit Request service agreement, and authorise Stripe Payments Australia Pty Ltd ACN 160 180 343 Direct Debit User ID
+                        number 507156 (“Stripe”) to debit your account through the Bulk Electronic Clearing System (BECS) on behalf of Stripe Payments Demo
+                        (the “Merchant”) for any amounts separately communicated to you by the Merchant. You certify that you are either an account
+                        holder or an authorised signatory on the account listed above.</p>
+                </div>
+            </section>
+            <div class="expireTime_wrp">This payment will expired in <span id="expireTime"></span></div>
+            <button class="payment-button" type="submit">Pay</button>
+            <a href="" id="cancelUrl" class="cancel-button">Cancel</a>
+        </form>
+        <div id="card-errors" class="element-errors"></div>
+        <div id="iban-errors" class="element-errors"></div>
+        <div id="becs-errors" class="element-errors"></div>
+    </div>
+    <div id="confirmation">
+        <div class="status processing">
+            <h1>Completing your order…</h1>
+            <p>We’re just waiting for the confirmation from your bank… This might take a moment but feel free to close this page.</p>
+            <p>We’ll send your receipt via email shortly.</p>
+        </div>
+        <div class="status success">
+            <h1>Thanks for your payment!</h1>
+            <p>Woot! You successfully made a payment with Stripe.</p>
+            <p class="note">We just sent your receipt to your email address, and your items will be on their way shortly.</p>
+        </div>
+        <div class="status receiver">
+            <h1>Thanks! One last step!</h1>
+            <p>Please make a payment using the details below to complete your order.</p>
+            <div class="info"></div>
+        </div>
+        <div class="status error">
+            <h1>Oops, payment failed.</h1>
+            <p>It looks like your order could not be paid at this time. Please try again or select a different payment option.</p>
+            <p class="error-message"></p>
+        </div>
+    </div>
+</main>
+
+<!-- Library to render QR codes -->
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU" crossorigin="anonymous"></script>
+<!-- Library for generating fake user information -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js" integrity="sha384-PlFzuf6GOlJNxLuosezJ/jwndIVZ2hWI/AmvYQtBzstOdLtcUe6DPSI4LsqwiN1y" crossorigin="anonymous"></script>
+
+<!-- cash shield Device Fingerprinting -->
+<script language="javascript" src="https://d1cr9zxt7u0sgu.cloudfront.net/crfp.js?SITE_ID=bcdab9271bea85b6869bdb72c0178ac91b2fc811&SESSION_ID=hf77ng3mnso77k4o701u9husvu&TYPE=JS&DE=1&ROUTE=shield" type="text/javascript" async charset="UTF-8"></script>
+<script src="/skin/js/lib/tuki-js/functions-f613cb673e.js"></script>
+<script src="/skin/js/lib/tuki-js/jquery-df6d138e3a.plugin.js"></script>
+
+            <!-- Google Tag Manager -->
+        <noscript>
+            <iframe src="//www.googletagmanager.com/ns.html?id=GTM-T4C5KB" height="0" width="0"
+                    style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <script>(function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start':
+                        new Date().getTime(), event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                    '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-T4C5KB');
+        </script>
+        <!-- End Google Tag Manager -->
+    
+<style>
+    .tukibox_content{max-width:35em;}
+    .btw.btw-color-B{color:#fff !important;}
+</style>
+<!-- tukibox -->
+<div id="tukibox_overlay" class="">
+    <div class="inner">
+        <div class="tukibox">
+            <div class="tukibox_content">
+
+                <form method="post" action="https://pay.seagm.com/pt/sms/checksms?type=stripe" target="background">
+                    <div id="sms_verification">
+                        <h3><i icon="security"></i>SMS Verification is required for payment.</h3>
+                        <div class="sms_note">
+                            Please make sure your phone <b
+                                    class="phone">+55-71988362338</b> is available to receive verification code.                            <p>You need to make a new order if you do not verify this payment.</p>
+                        </div>
+                        <div class="sms_number">
+                            <div class="number" icon="phone_iphone"><span class="country_code">+55</span> 71988362338</div>
+                            <a class="btw" href="https://pay.seagm.com/pt/sms/sendsms?flag_code=1" target="background" id="send-sms-code"><span>Send Code</span></a>
+                        </div>
+                        <div class="sms_code">
+                            <label class="text_wrp"><input type="text" name="sms_verify_code" placeholder="Verification code"></label>
+                            <label class="btw btw-color-B" id="submit-sms-code"><span>Verifique</span><input type="submit"></label>
+                        </div>
+
+                        <div class="tips_wrp">
+                            <div class="tips alert"></div>
+                        </div>
+                        <input type="hidden" name="relative_id" value="20209948">
+                        <input type="hidden" name="bank_verify_flag" value="stripe">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        window.clientData = {"sessID":"$2y$10$mhDT8uDF2XQ1t3XnGIo4F.No2ugI\/bcNKuTzo.xXzmrqpdsZzXWi2","origin_sess_id":"hf77ng3mnso77k4o701u9husvu","websocket":{"protocol":"wss","host":"wss.seagm.com","port":"443","status":"https:\/\/wss.seagm.com\/stats","notify":"https:\/\/wss.seagm.com\/trigger","trigger_connect_timeout":"10","trigger_timeout":"10"},"sessIDEnc":"5ca6496b57afb8b0776410270b615408","user":{"id":"3365609"}};
+    //全局元素
+var $head = $('head');
+var $body = $('body');
+
+//弹出小窗
+var $popup = $('#tukibox_overlay');
+var $popupTitle = $popup.find('span.tukibox_title');
+var $popupContent = $popup.find('div.tukibox_content');
+
+//弹出提示
+var $tip = $('#tukitip');
+var tipTimer; //定时器
+
+$('.line select.region_selector').on('change', function () {
+    var $form = $(this).closest('form');
+    var region = $(this).val();
+    if (clientData.currencyList.hasOwnProperty(clientData.regionList[region].currency))
+        $form.find('.line select.currency_selector').val(clientData.regionList[region].currency);
+    if (clientData.languageList.hasOwnProperty(clientData.regionList[region].language))
+        $form.find('.line select.language_selector').val(clientData.regionList[region].language);
+});
+
+$('.tukiselector select.region_selector').on('change', function () {
+    var $region = $(this).val();
+    var $currency_r = clientData.regionList[$region].currency;
+    var $menu = $(".tukiselector select.currency_selector");
+    $($menu).val($currency_r);
+    $($menu).trigger("change");
+});
+
+$('.tukiselector select.currency_selector').on('change', function () {
+    var $currency = $(this).val();
+    var $div_id = '#account_' + $currency;
+    $($div_id).addClass('show').siblings('.show').removeClass('show');
+});
+
+//弹出菜单
+$body.on('click', 'a[rel="dropmenu"]', function () {
+    var $this = $(this);
+    if ('#' == $this.attr('href')) {
+        if ($this.next().hasClass('show')) {
+            $this.next().removeClass('show');
+        } else {
+            $body.find('section.show').removeClass('show');
+            $this.next().addClass('show');
+        }
+        return false;
+    }
+});
+
+//拦截 表单提交
+$body.on('submit', 'form[target="background"]', function () {
+    var formData = new FormData(this);
+    var $form = $(this);
+    $tip.addClass('show');
+    $.ajax(this.action, {
+        type: 'POST',
+        url: this.action,
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        timeout: 15000,
+    }).done(function (data, textStatus) {
+        processResponse($form, data);
+        if (tipTimer === undefined) $tip.removeClass('show');
+    }).fail(function (jqXHR, textStatus, error) {
+        var err = textStatus + ", " + error;
+        console.log("Request Failed: " + err);
+        //alert(err);
+    }).always(function () {
+    });
+    return false;
+});
+
+//拦截 普通链接
+$body.on('click', 'a[target="background"]', function () {
+    var $a = $(this);
+    $tip.addClass('show');
+    $.getJSON($a.attr('href')
+    ).done(function (data) {
+        processResponse($a, data);
+        if (tipTimer == undefined) $tip.removeClass('show');
+    }).fail(function (jqxhr, textStatus, error) {
+        var err = textStatus + ", " + error;
+        console.log("Request Failed: " + err);
+        //alert(err);
+    }).always(function () {
+    });
+    return false;
+});
+
+$body.on('click', 'a[target=popup]', function () {
+    var $this = $(this);
+    $popup.addClass('show');
+    $body.addClass('overlay');
+    $popupTitle.html($this.attr('title'));
+    $popupContent.load($this.attr('href'));
+    return false;
+});
+
+//tab功能模块
+$body.on('click', 'li.tukitab > a', function () {
+    var $tukilabel = $(this);
+    var $tukitab = $tukilabel.parent('li.tukitab');
+    var $tukipanel = $($tukilabel.attr('href'));
+    $tukipanel.siblings('.show').removeClass('show').addClass('hide');
+    $tukipanel.removeClass('hide').addClass('show');
+    $tukitab.addClass('current').siblings('.current').removeClass('current');
+    return false;
+});
+
+//popup
+$popup.on('click', 'a.close', function () {
+    close_popup_box();
+    return false;
+});
+
+//function
+function popup_alert(message, tiptime) {
+    var tiptime = arguments[1] ? arguments[1] : 3000;
+
+    $tip.addClass('show').find('div.inner').html('<div class="tukitip_tips"> <span icon="warning">'+message+'</span> </div>');
+    tipTimer = setTimeout(function () {
+        $('#payment_func').find('label').removeClass('loading');
+        $tip.removeClass('show').find('div.inner').html('<div class="tukitip_loading"><span>Loading</span></div>');
+
+        tipTimer = undefined;
+    }, tiptime);
+}
+
+//成功提示
+function popup_success(message, tiptime) {
+    var tiptime = arguments[1] ? arguments[1] : 3000;
+
+    $tip.addClass('show').find('div.inner').html('<div class="tukitip_tips"> <span icon="check_circle">'+message+'</span> </div>');
+    tipTimer = setTimeout(function () {
+        $('#payment_func').find('label').removeClass('loading');
+        $tip.removeClass('show').find('div.inner').html('<div class="tukitip_loading"><span>Loading</span></div>');
+
+        tipTimer = undefined;
+    }, tiptime);
+}
+
+function popup_notify(message) {
+    //alert(message);
+    $tip.addClass('show').find('div.inner').html('<div class="tukitip_tips">'+message+'</div>');
+    tipTimer = setTimeout(function () {
+        $tip.removeClass('show').find('div.inner').html('<div class="tukitip_loading"><span>Loading</span></div>');
+    }, 3000);
+}
+
+function popup_box(body, title) {
+    $popup.addClass('show');
+    $body.addClass('overlay');
+    $popupTitle.html(title);
+    $popupContent.html(body);
+}
+
+function close_popup_box() {
+    $popup.removeClass('show');
+    $body.removeClass('overlay');
+    $popupTitle.html('');
+    $popupContent.html('');
+}
+
+function popup_iframe(url, w, h, c) {
+     $popup.addClass('show');
+     $body.addClass('overlay');
+     $popupContent.html('<div class="iframe_wrp"><iframe width="' + w + '" height="' + h + '" frameborder="0" class="P_topup ' + c + '" src="' + url + '"></iframe></div>');
+}
+
+function close_popup_iframe() {
+    close_popup_box();
+}
+
+/**
+ * stripe-redirect
+ * @param webApiKey
+ * @param sessionId
+ * @returns {*}
+ */
+function stripeRedirect(webApiKey, sessionId) {
+    // Create an instance of the Stripe object with your publishable API key
+    var stripe = Stripe(webApiKey);
+    return stripe.redirectToCheckout({ sessionId: sessionId });
+}    //websocket
+var ws = new WebSocket(clientData.websocket.protocol + '://' + clientData.websocket.host + ':' + clientData.websocket.port + '?sess_id=' + clientData.sessIDEnc);
+
+ws.onopen = function () {
+    //safeConsoleLog('websocket opened');
+    setInterval(function(){
+        var m = JSON.stringify({
+            Sender: clientData.sessIDEnc,
+            Receiver: clientData.sessIDEnc,
+            Command: 'keepalive',
+            Data: {time: Date.parse(new Date()) / 1000}
+        });
+        ws.send(m);
+    }, 10 * 1000);
+};
+
+ws.onerror = function () {
+    //safeConsoleLog('websocket error');
+};
+
+ws.onclose = function () {
+    //safeConsoleLog('websocket closed');
+};
+
+ws.onmessage = function (e) {
+    var r = eval("(" + e.data + ")");
+    var data = r.Data;
+    switch (r.Command) {
+        case 'alert':
+            alert(data);
+            break;
+        case 'notification':
+            break;
+        case 'update_user_balance':
+            $(data.selector).html(data.html);
+            break;
+        case 'topup_complete':
+            $(data.selector).html(data.html);
+            break;
+        case 'refresh_balance':
+            $('b.user-blance').html(moneyFormat(data.balance));
+            break;
+        case 'callback':
+            if (data.status == 2) {
+                window.location.href = data.url;
+            }
+            break;
+        default:
+            //console.log(e.data);
+    }
+};</script>
+            <!-- Google Tag Manager -->
+        <noscript>
+            <iframe src="//www.googletagmanager.com/ns.html?id=GTM-T4C5KB" height="0" width="0"
+                    style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <script>(function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start':
+                        new Date().getTime(), event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                    '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-T4C5KB');
+        </script>
+        <!-- End Google Tag Manager -->
+    
+
+<script>
+    var expireFailedUrl = 'https://pay.seagm.com/pt/failed?remittance_id=20209948&msg=Payment expired, please recreate payment';
+    var wait = '1789';
+
+    function time(o) {
+        if (wait == 0) {
+            o.attr("disabled", true);
+            $('#expireTime').text('This payment is expired');
+            window.location.href = expireFailedUrl;
+        } else {
+            wait--;
+
+            if (wait < 60) {
+                $('#expireTime').text(wait + ' s');
+            } else {
+                var min_total = Math.floor(wait / 60); // 分钟
+                var sec = Math.floor(wait % 60); // 余秒
+                $('#expireTime').text( min_total + ' Min ' + sec + ' s');
+            }
+            setTimeout(function () {time(o)}, 1000);
+        }
+    }
+    time($('button[type=submit]'));
+
+    $('#send-sms-code').on("click", function(){
+        $(this).addClass('loading');
+    });
+
+    $('#submit-sms-code').on("click", function(){
+        $(this).addClass('loading');
+    });
+
+    var successUrl = 'https://pay.seagm.com/pt/seagm/success?remittance_id=20209948&flag=online&msg=Payment completed.';
+    var cancelUrl = '';
+
+    var form = document.getElementById('payment-form');
+
+    var submitButton = form.querySelector('button[type=submit]');
+    var cancelButton = $('#cancelUrl');
+
+    fetch("/stripe/init", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: ''
+    })
+        .then(function (result) {
+            return result.json();
+        })
+        .then(function (result) {
+            return setupElements(result);
+        })
+        .then(function ({stripe, card}) {
+            document.querySelector("button").disabled = false;
+
+            var form = document.getElementById("payment-form");
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                pay(stripe, card);
+            });
+        });
+
+    var setupElements = function (data) {
+        stripe = Stripe(data.publishableKey);
+
+        /* ------- Set up Stripe Elements to use in checkout form ------- */
+        var elements = stripe.elements();
+
+        // Prepare the styles for Elements.
+        var style = {
+            base: {
+                iconColor: '#666ee8',
+                color: '#31325f',
+                fontWeight: 400,
+                fontFamily:
+                    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '15px',
+                '::placeholder': {
+                    color: '#aab7c4',
+                },
+                ':-webkit-autofill': {
+                    color: '#666ee8',
+                },
+            },
+        };
+
+        /**
+         * Implement a Stripe Card Element that matches the look-and-feel of the app.
+         *
+         * This makes it easy to collect debit and credit card payments information.
+         */
+        // Create a Card Element and pass some custom styles to it.
+        var card = elements.create('card', {style, hidePostalCode: true});
+
+        // Mount the Card Element on the page.
+        card.mount('#card-element');
+
+        // Monitor change events on the Card Element to display any errors.
+        card.on('change', ({error}) => {
+            const cardErrors = document.getElementById('card-errors');
+            if (error) {
+                cardErrors.textContent = error.message;
+                cardErrors.classList.add('visible');
+            } else {
+                cardErrors.classList.remove('visible');
+            }
+            // Re-enable the Pay button.
+            submitButton.disabled = false;
+        });
+
+        return {
+            stripe: stripe,
+            card: card
+        };
+    };
+
+    var handleAction = function (clientSecret) {
+        stripe.handleCardAction(clientSecret).then(function (data) {
+            if (data.error) {
+                var paymentIntentId = data.error.payment_intent.id;
+            } else {
+                var paymentIntentId = data.paymentIntent.id;
+            }
+
+            fetch("/stripe/handle-auth", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    paymentIntentId: paymentIntentId
+                })
+            })
+                .then(function (result) {
+                    return result.json();
+                })
+                .then(function (json) {
+                    if (json.html) {
+                        $('#tukibox_overlay').addClass('show');
+                    } else if (json.error) {
+                        showError(json.error, json.failedUrl);
+                    } else {
+                        handlePayment(clientSecret);
+                    }
+                });
+        });
+    };
+
+    /*
+    * Collect card details and pays for the order
+    */
+    var pay = function (stripe, card) {
+        // Caio - 1 - primeiro passa aqui 
+        // Retrieve the user information from the form.
+        var name = form.querySelector('input[name=name]').value;
+        // var country = form.querySelector('select[name=country] option:checked').value;
+        var email = form.querySelector('input[name=email]').value;
+        // var billingAddress = {
+        //     line1: form.querySelector('input[name=address]').value,
+        //     city: form.querySelector('input[name=city]').value,
+        //     postal_code: form.querySelector('input[name=postal_code]').value,
+        //     state: form.querySelector('input[name=state]').value,
+        //     country,
+        // };
+
+        var submitButton = form.querySelector('button[type=submit]');
+
+        submitButton.disabled = true;
+        submitButton.textContent = 'Processing…';
+
+        cancelButton.attr('href', "#");
+
+        stripe
+            .createPaymentMethod({
+                type: 'card',
+                card: card,
+                billing_details: {
+                    name: name,
+                    email: email,
+                    // address: billingAddress,
+                },
+            })
+            .then(function (result) {
+                if (result.error) {
+                    cancelButton.attr('href', cancelUrl);
+                    showError(result.error.message);
+                } else {
+                    return fetch("/stripe/create-payment-and-check", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(result)
+                    });
+                }
+            })
+            .then(function (result) {
+                return result.json();
+            })
+            .then(function (paymentData) {
+                if (paymentData.html) {
+                    $('#tukibox_overlay').addClass('show');
+                } else if (paymentData.requiresAction) {
+                    // Request authentication
+                    handleAction(paymentData.clientSecret);
+                } else if (paymentData.error) {
+                    showError(paymentData.error, paymentData.failedUrl);
+                } else {
+                    handlePayment(paymentData.clientSecret);
+                }
+            });
+    };
+
+    // handle paymentIntent result
+    const handlePayment = (clientSecret) => {
+        stripe.retrievePaymentIntent(clientSecret).then(function (result) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Pay';
+
+            var paymentIntent = result.paymentIntent;
+
+            var mainElement = document.getElementById('main');
+            var confirmationElement = document.getElementById('confirmation');
+
+            if (paymentIntent.status === 'succeeded') {
+                window.location.href = successUrl;
+
+                // Success! Payment is confirmed. Update the interface to display the confirmation screen.
+                mainElement.classList.remove('processing');
+                mainElement.classList.remove('receiver');
+                // Update the note about receipt and shipping (the payment has been fully confirmed by the bank).
+                confirmationElement.querySelector('.note').innerText = 'We just sent your receipt to your email address, and your items will be on their way shortly.';
+                mainElement.classList.add('success');
+            } else if (paymentIntent.status === 'processing') {
+                // Success! Now waiting for payment confirmation. Update the interface to display the confirmation screen.
+                mainElement.classList.remove('processing');
+                // Update the note about receipt and shipping (the payment is not yet confirmed by the bank).
+                confirmationElement.querySelector('.note').innerText = 'We’ll send your receipt and ship your items as soon as your payment is confirmed.';
+                mainElement.classList.add('success');
+            } else if (paymentIntent.status === 'requires_payment_method') {
+                // Failure. Requires new PaymentMethod, show last payment error message.
+                mainElement.classList.remove('processing');
+                confirmationElement.querySelector('.error-message').innerText = paymentIntent.last_payment_error || 'Payment failed';
+                mainElement.classList.add('error');
+            } else {
+                // Payment has failed.
+                mainElement.classList.remove('success');
+                mainElement.classList.remove('processing');
+                mainElement.classList.remove('receiver');
+                mainElement.classList.add('error');
+            }
+        });
+    };
+
+    var showError = function (errorMsgText, failedUrl = '') {
+        if (failedUrl != '') {
+            window.location.href = failedUrl;
+        } else {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Pay';
+
+            var cardErrors = document.getElementById('card-errors');
+            cardErrors.textContent = errorMsgText;
+            cardErrors.classList.add('visible');
+
+            setTimeout(function () {
+                cardErrors.textContent = errorMsgText;
+                cardErrors.classList.remove('visible');
+            }, 15000);
+        }
+    };
+</script>
+</body>
+</html>
