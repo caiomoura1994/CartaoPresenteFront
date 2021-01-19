@@ -11,11 +11,11 @@ type Props = {
 const SaleFinished = ({ item }: Props) => {
   const [openGiftCard, setShowGiftCard] = useState(false)
   const [order, setOrder] = useState({ gift_code: "" })
-  let saleCode = "";
-  if (process.browser) {
-    const urlParams = new URLSearchParams(window.location.search);
-    saleCode = urlParams.get('saleCode') || "0";
-  }
+  // let saleCode = "";
+  // if (process.browser) {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   saleCode = urlParams.get('saleCode') || "0";
+  // }
 
 
   const openGiftCode = async () => {
