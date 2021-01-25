@@ -142,6 +142,7 @@ export const getStaticProps: GetStaticProps<Props, { slug: string }> = async con
     props: {
       item
     },
+    revalidate: 1, 
   };
 };
 
