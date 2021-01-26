@@ -72,7 +72,7 @@ const StaticPropsDetail = ({ item }: Props) => {
     console.log('checkoutData:', checkoutData)
     const registerRes = await registerOrder(checkoutData?.id)
     console.log('registerRes',await registerRes.json())
-    const stripePromise = await loadStripe('pk_test_51HCbBYA8wNRuG06I8HpP1j6tHmgAnz4U7im24KHMluzgitv4nqDOicJBp4Jf1hyYNUE1UPuF1UkbLD46KEa3i2z600vyVKUiw8');
+    const stripePromise = await loadStripe('pk_live_51HCbBYA8wNRuG06I0sB1O9UTsrS4OpgasP5zkceONv2rOn0J5SfqzZ87yn7E3OFcR5NBIQBI0d8RZjFSssFJeOZq00QetWxjLI');
     const redirected = await stripePromise?.redirectToCheckout({
       sessionId: checkoutData.id,
     });

@@ -3,7 +3,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
 export default function MyApp({ Component, pageProps }: any) {
-    const stripePromise = loadStripe('pk_test_51HCbBYA8wNRuG06I8HpP1j6tHmgAnz4U7im24KHMluzgitv4nqDOicJBp4Jf1hyYNUE1UPuF1UkbLD46KEa3i2z600vyVKUiw8');
+    const stripePromise = loadStripe('pk_live_51HCbBYA8wNRuG06I0sB1O9UTsrS4OpgasP5zkceONv2rOn0J5SfqzZ87yn7E3OFcR5NBIQBI0d8RZjFSssFJeOZq00QetWxjLI');
 
     return <>
         <Elements stripe={stripePromise}>
